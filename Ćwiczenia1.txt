@@ -52,16 +52,16 @@ b) ALTER TABLE wynagrodzenie ALTER COLUMN data TYPE varchar(255);
 c) ALTER TABLE wynagrodzenie ALTER COLUMN data TYPE TEXT;
 d) UPDATE premia SET kwota = 0 WHERE rodzaj IS NULL;
 
-INSERT INTO pracownicy VALUES (1, 'Jinkx', 'Monsoon', 'Seattle', '242-242-242');
-INSERT INTO pracownicy VALUES (2,'Coco', 'Montrese', 'Las Vegas', '373-373-373');
-INSERT INTO pracownicy VALUES (3, 'Ivy', 'Winters', 'New York', '262-262-262');
-INSERT INTO pracownicy VALUES (4, 'Jade', 'Jolie', 'Gainesville', '252-252-252');
-INSERT INTO pracownicy VALUES (5, 'Honey', 'Mahogany', 'New York', '292-292-292');
-INSERT INTO pracownicy VALUES (6, 'Gia', 'Gunn', 'Chicago', '232-232-232');
-INSERT INTO pracownicy VALUES (7, 'Magnolia', 'Crawford', 'Seattle', '282-282-828');
-INSERT INTO pracownicy VALUES (8, 'Violet', 'Chachki', 'Chicago', '212-212-121');
-INSERT INTO pracownicy VALUES (9, 'Chad', 'Michaels', 'New York', '343-343-434');
-INSERT INTO pracownicy VALUES (10, 'Sharon', 'Needles', 'Krakow', '266-262-262');
+INSERT INTO pracownicy VALUES (1, 'Jinkx', 'Monsoon', 'Seattle', '242 242 242');
+INSERT INTO pracownicy VALUES (2,'Coco', 'Montrese', 'Las Vegas', '373 373 373');
+INSERT INTO pracownicy VALUES (3, 'Ivy', 'Winters', 'New York', '262 262 262');
+INSERT INTO pracownicy VALUES (4, 'Jade', 'Jolie', 'Gainesville', '252 252 252');
+INSERT INTO pracownicy VALUES (5, 'Honey', 'Mahogany', 'New York', '292 292 292');
+INSERT INTO pracownicy VALUES (6, 'Gia', 'Gunn', 'Chicago', '232 232 232');
+INSERT INTO pracownicy VALUES (7, 'Magnolia', 'Crawford', 'Seattle', '282 282 828');
+INSERT INTO pracownicy VALUES (8, 'Violet', 'Chachki', 'Chicago', '212 212 121');
+INSERT INTO pracownicy VALUES (9, 'Chad', 'Michaels', 'New York', '343 343 434');
+INSERT INTO pracownicy VALUES (10, 'Sharon', 'Needles', 'Krakow', '266 262 262');
 
 INSERT INTO godziny VALUES (1,'01-01-2001',180,1);
 INSERT INTO godziny VALUES (2,'01-02-2001',160,2);
