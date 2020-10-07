@@ -1,3 +1,4 @@
+
 1. CREATE DATABASE s298280;
    \c s298280
 2. CREATE SCHEMA firma;
@@ -51,16 +52,16 @@ b) ALTER TABLE wynagrodzenie ALTER COLUMN data TYPE varchar(255);
 c) ALTER TABLE wynagrodzenie ALTER COLUMN data TYPE TEXT;
 d) UPDATE premia SET kwota = 0 WHERE rodzaj IS NULL;
 
-INSERT INTO pracownicy VALUES (1, 'Jinkx', 'Monsoon', 'Seattle', '242 242 242');
-INSERT INTO pracownicy VALUES (2,'Coco', 'Montrese', 'Las Vegas', '373 373 373');
-INSERT INTO pracownicy VALUES (3, 'Ivy', 'Winters', 'New York', '262 262 262');
-INSERT INTO pracownicy VALUES (4, 'Jade', 'Jolie', 'Gainesville', '252 252 252');
-INSERT INTO pracownicy VALUES (5, 'Honey', 'Mahogany', 'New York', '292 292 292');
-INSERT INTO pracownicy VALUES (6, 'Gia', 'Gunn', 'Chicago', '232 232 232');
-INSERT INTO pracownicy VALUES (7, 'Magnolia', 'Crawford', 'Seattle', '282 282 828');
-INSERT INTO pracownicy VALUES (8, 'Violet', 'Chachki', 'Chicago', '212 212 121');
-INSERT INTO pracownicy VALUES (9, 'Chad', 'Michaels', 'New York', '343 343 434');
-INSERT INTO pracownicy VALUES (10, 'Sharon', 'Needles', 'Krakow', '266 262 262');
+INSERT INTO pracownicy VALUES (1, 'Jinkx', 'Monsoon', 'Seattle', '242-242-242');
+INSERT INTO pracownicy VALUES (2,'Coco', 'Montrese', 'Las Vegas', '373-373-373');
+INSERT INTO pracownicy VALUES (3, 'Ivy', 'Winters', 'New York', '262-262-262');
+INSERT INTO pracownicy VALUES (4, 'Jade', 'Jolie', 'Gainesville', '252-252-252');
+INSERT INTO pracownicy VALUES (5, 'Honey', 'Mahogany', 'New York', '292-292-292');
+INSERT INTO pracownicy VALUES (6, 'Gia', 'Gunn', 'Chicago', '232-232-232');
+INSERT INTO pracownicy VALUES (7, 'Magnolia', 'Crawford', 'Seattle', '282-282-828');
+INSERT INTO pracownicy VALUES (8, 'Violet', 'Chachki', 'Chicago', '212-212-121');
+INSERT INTO pracownicy VALUES (9, 'Chad', 'Michaels', 'New York', '343-343-434');
+INSERT INTO pracownicy VALUES (10, 'Sharon', 'Needles', 'Krakow', '266-262-262');
 
 INSERT INTO godziny VALUES (1,'01-01-2001',180,1);
 INSERT INTO godziny VALUES (2,'01-02-2001',160,2);
@@ -154,15 +155,18 @@ UPDATE pracownicy SET telefon = CONCAT('(+48)', telefon);
 
 b) Zakładając, że wejsciowy numer telefonu miał format XXX XXX XXX (spacje):
 UPDATE pracownicy SET telefon = REPLACE(telefon, ‘ ’, ‘-‘);
+Zakładając, że numer jest nieprzerwanym ciągiem cyfr:
+UPDATE pracownicy SET telefon = CONCAT(LEFT(telefon, 8), '-', SUBSTRING(telefon, 9, 3), '-', SUBSTRING(telefon, 11, 3));
 
 c) 
 SELECT id_pracownika, UPPER(imie), UPPER(nazwisko), UPPER(adres), telefon FROM pracownicy 
 WHERE LENGTH(nazwisko) = (SELECT MAX(LENGTH(nazwisko)) FROM pracownicy);
 
-d)
-SELECT pracownicy.id_pracownika, imie, nazwisko, adres, telefon, md5(CAST(pensja_stanowisko.kwota AS TEXT)) as "zakodowana pensja" FROM pracownicy 
+d)SELECT pracownicy.id_pracownika, imie, nazwisko, adres, telefon, md5(CAST(pensja_stanowisko.kwota AS TEXT)) as "zakodowana pensja" FROM pracownicy 
 INNER JOIN wynagrodzenie ON wynagrodzenie.id_pracownika=pracownicy.id_pracownika 
 INNER JOIN pensja_stanowisko ON pensja_stanowisko.id_pensji=wynagrodzenie.id_pensji;
+
+9. SELECT CONCAT('Pracownik ', pracownicy.imie, ' ', pracownicy.nazwisko, ', w dniu ', godziny.data,' otrzymal pensje calkowita na kwote ', (pensja_stanowisko.kwota + premia.kwota), ', gdzie wynagrodzenie zasadnicze wynosilo: ', pensja_stanowisko.kwota, 'zl, premia:', premia.kwota, 'zl, liczba nadgodzin: ', (CASE WHEN godziny.liczba_godzin <= 160 THEN 0 ELSE (godziny.liczba_godzin-160) END)) FROM pracownicy INNER JOIN wynagrodzenie ON wynagrodzenie.id_pracownika = pracownicy.id_pracownika INNER JOIN godziny ON godziny.id_godziny = wynagrodzenie.id_godziny INNER JOIN pensja_stanowisko ON wynagrodzenie.id_pensji = pensja_stanowisko.id_pensji INNER JOIN premia ON premia.id_premii = wynagrodzenie.id_premii;
 
 
 
