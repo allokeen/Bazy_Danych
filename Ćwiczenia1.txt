@@ -1,1 +1,168 @@
-Ćwiczenia 1
+1. CREATE DATABASE s298280;
+   \c s298280
+2. CREATE SCHEMA firma;
+3. CREATE ROLE ksiegowosc NOSUPERUSER INHERIT NOCREATEDB NOCREATEROLE NOREPLICATION;
+4.
+a) 
+CREATE TABLE pracownicy ( id_pracownika int NOT NULL, imie varchar(255), nazwisko varchar(255), adres varchar(255), telefon varchar(255));
+CREATE TABLE godziny(id_godziny int NOT NULL, data date, liczba_godzin int, id_pracownika int NOT NULL);
+CREATE TABLE pensja_stanowisko( id_pensji int NOT NULL, stanowisko varchar(255), kwota float);
+CREATE TABLE premia( id_premii int NOT NULL, rodzaj varchar(255), kwota float);
+CREATE TABLE wynagrodzenie( id_wynagrodzenia int NOT NULL, data date, id_pracownika int NOT NULL, id_godziny int NOT NULL, id_pensji int NOT NULL, id_premii int NOT NULL);
+
+b)
+ALTER TABLE pracownicy ADD PRIMARY KEY (id_pracownika);
+ALTER TABLE godziny ADD PRIMARY KEY (id_godziny);
+ALTER TABLE pensja_stanowisko ADD PRIMARY KEY (id_pensji);
+ALTER TABLE premia ADD PRIMARY KEY (id_premii);
+ALTER TABLE wynagrodzenie ADD PRIMARY KEY (id_wynagrodzenia);
+
+c)
+ALTER TABLE godziny ADD FOREIGN KEY(id_pracownika) REFERENCES pracownicy(id_pracownika);
+ALTER TABLE wynagrodzenie ADD FOREIGN KEY (id_pracownika) REFERENCES pracownicy(id_pracownika);
+ALTER TABLE wynagrodzenie ADD FOREIGN KEY (id_godziny) REFERENCES godziny(id_godziny);
+ALTER TABLE wynagrodzenie ADD FOREIGN KEY (id_pensji) REFERENCES pensja_stanowisko(id_pensji);
+ALTER TABLE wynagrodzenie ADD FOREIGN KEY (id_premii) REFERENCES premia(id_premii);
+
+d)
+CREATE INDEX idx_prac ON pracownicy using btree(id_pracownika);
+CREATE INDEX idx_godz ON godziny using btree(id_godziny);
+CREATE INDEX idx_pens ON pensja_stanowisko using btree(id_pensji);
+CREATE INDEX idx_prem ON premia using btree(id_premii);
+CREATE INDEX idx_wyn ON wynagrodzenie using btree(id_wynagrodzenia);
+
+e) 
+COMMENT ON TABLE pracownicy IS 'id oraz dane osobowe pracownikow';
+COMMENT ON TABLE godziny IS 'data oraz ilosc przepracowanych godzin pracownikow';
+COMMENT ON TABLE pensja_stanowisko IS 'rodzaj stanowiska i wysokosc pensji';
+COMMENT ON TABLE premia IS 'wysokosc i rodzaj premii';
+COMMENT ON TABLE wynagrodzenie IS 'wynagrodzenia pracownikow';
+
+f) (ON UPDATE NO ACTION ON DELETE NO ACTION - są to opcje domyślne, więc mogą być wpisane opcjonalnie)
+ ALTER TABLE godziny ADD CONSTRAINT pracownicy_fk FOREIGN KEY (id_pracownika) REFERENCES pracownicy(id_pracownika) ON UPDATE NO ACTION ON DELETE NO ACTION;
+ ALTER TABLE wynagrodzenie ADD CONSTRAINT pracownicy_fk FOREIGN KEY (id_pracownika) REFERENCES pracownicy(id_pracownika) ON UPDATE NO ACTION ON DELETE NO ACTION;
+ ALTER TABLE wynagrodzenie ADD CONSTRAINT godziny_fk FOREIGN KEY (id_godziny) REFERENCES godziny(id_godziny) ON UPDATE NO ACTION ON DELETE NO ACTION;
+ ALTER TABLE wynagrodzenie ADD CONSTRAINT pensja_stanowisko_fk FOREIGN KEY (id_pensji) REFERENCES pensja_stanowisko(id_pensji) ON UPDATE NO ACTION ON DELETE NO ACTION;
+ ALTER TABLE wynagrodzenie ADD CONSTRAINT premia_fk FOREIGN KEY (id_premii) REFERENCES premia(id_premii) ON UPDATE NO ACTION ON DELETE NO ACTION;
+
+5.
+a) ALTER TABLE godziny ADD miesiac INT, ADD tydzien INT;
+b) ALTER TABLE wynagrodzenie ALTER COLUMN data TYPE varchar(255);
+c) ALTER TABLE wynagrodzenie ALTER COLUMN data TYPE TEXT;
+d) UPDATE premia SET kwota = 0 WHERE rodzaj IS NULL;
+
+INSERT INTO pracownicy VALUES (1, 'Jinkx', 'Monsoon', 'Seattle', '242 242 242');
+INSERT INTO pracownicy VALUES (2,'Coco', 'Montrese', 'Las Vegas', '373 373 373');
+INSERT INTO pracownicy VALUES (3, 'Ivy', 'Winters', 'New York', '262 262 262');
+INSERT INTO pracownicy VALUES (4, 'Jade', 'Jolie', 'Gainesville', '252 252 252');
+INSERT INTO pracownicy VALUES (5, 'Honey', 'Mahogany', 'New York', '292 292 292');
+INSERT INTO pracownicy VALUES (6, 'Gia', 'Gunn', 'Chicago', '232 232 232');
+INSERT INTO pracownicy VALUES (7, 'Magnolia', 'Crawford', 'Seattle', '282 282 828');
+INSERT INTO pracownicy VALUES (8, 'Violet', 'Chachki', 'Chicago', '212 212 121');
+INSERT INTO pracownicy VALUES (9, 'Chad', 'Michaels', 'New York', '343 343 434');
+INSERT INTO pracownicy VALUES (10, 'Sharon', 'Needles', 'Krakow', '266 262 262');
+
+INSERT INTO godziny VALUES (1,'01-01-2001',180,1);
+INSERT INTO godziny VALUES (2,'01-02-2001',160,2);
+INSERT INTO godziny VALUES (3,'03-03-2001',170,3);
+INSERT INTO godziny VALUES (4,'03-04-2001',200,4);
+INSERT INTO godziny VALUES (5,'13-04-2001',160,5);
+INSERT INTO godziny VALUES (6,'13-04-2001',160,6);
+INSERT INTO godziny VALUES (7,'13-01-2001',160,7);
+INSERT INTO godziny VALUES (8,'8-01-2001',160,8);
+INSERT INTO godziny VALUES (9,'02-01-2001',160,9);
+INSERT INTO godziny VALUES (10,'02-07-2001',170,10);
+UPDATE godziny SET miesiac = DATE_PART('month', data);
+UPDATE godziny SET tydzien = DATE_PART('week', data);
+
+INSERT INTO pensja_stanowisko VALUES (0, 'stan1', 1500);
+INSERT INTO pensja_stanowisko VALUES (1, 'stan2', 2500);
+INSERT INTO pensja_stanowisko VALUES (2, 'stan3', 3500);
+INSERT INTO pensja_stanowisko VALUES (3, 'stan4', 3100);
+INSERT INTO pensja_stanowisko VALUES (4, 'stan5', 2100);
+INSERT INTO pensja_stanowisko VALUES (5, 'stan6', 5100);
+INSERT INTO pensja_stanowisko VALUES (6, 'stan7', 2700);
+INSERT INTO pensja_stanowisko VALUES (7, 'stan8', 3700);
+INSERT INTO pensja_stanowisko VALUES (8, 'stan9', 1700);
+INSERT INTO pensja_stanowisko VALUES (9, 'stan10', 4700);
+
+INSERT INTO premia VALUES (1,'prem1', 100);
+INSERT INTO premia VALUES (2,'prem2', 200.5);
+INSERT INTO premia VALUES (3,'prem3', 500.5);
+INSERT INTO premia VALUES (4,'prem4', 1500.5);
+INSERT INTO premia VALUES (5,'prem5', 50);
+INSERT INTO premia VALUES (6,'prem6', 150);
+INSERT INTO premia VALUES (7,'prem7', 250);
+INSERT INTO premia VALUES (8,'prem8', 250);
+INSERT INTO premia VALUES (9,'prem9', 450);
+INSERT INTO premia VALUES (10,'prem10', 250);
+
+INSERT INTO wynagrodzenie VALUES (1,'2001-01-01',1,1,0,1);
+INSERT INTO wynagrodzenie VALUES (2,'2001-02-01',2,2,1,2);
+INSERT INTO wynagrodzenie VALUES (3,'2001-03-03',3,3,2,3);
+INSERT INTO wynagrodzenie VALUES (4,'2001-04-03',4,4,3,4);
+INSERT INTO wynagrodzenie VALUES (5,'2001-04-13',5,5,4,5);
+INSERT INTO wynagrodzenie VALUES (6,'2001-04-13',6,6,5,6);
+INSERT INTO wynagrodzenie VALUES (7,'2001-01-13',7,7,6,7);
+INSERT INTO wynagrodzenie VALUES (8,'2001-01-08',8,8,7,8);
+INSERT INTO wynagrodzenie VALUES (9,'2001-01-02',9,9,8,9);
+INSERT INTO wynagrodzenie VALUES (10,'2001-07-02',10,10,9,10);
+
+6.
+a) 
+SELECT id_pracownika, nazwisko from pracownicy;
+
+b) 
+SELECT wynagrodzenie.id_pracownika FROM wynagrodzenie 
+INNER JOIN pracownicy ON pracownicy.id_pracownika=wynagrodzenie.id_pracownika 
+INNER JOIN pensja_stanowisko ON wynagrodzenie.id_pensji=pensja_stanowisko.id_pensji 
+WHERE kwota>1000;
+
+c)
+SELECT wynagrodzenie.id_pracownika FROM wynagrodzenie 
+INNER JOIN pracownicy ON pracownicy.id_pracownika=wynagrodzenie.id_pracownika 
+INNER JOIN pensja_stanowisko ON wynagrodzenie.id_pensji=pensja_stanowisko.id_pensji 
+INNER JOIN premia ON premia.id_premii=wynagrodzenie.id_premii 
+WHERE pensja_stanowisko.kwota >2000 AND premia.kwota=200;
+
+d)  
+SELECT imie,nazwisko FROM pracownicy WHERE imie LIKE 'J%';
+
+e)  
+SELECT imie,nazwisko FROM pracownicy WHERE imie LIKE '%a' AND nazwisko LIKE '%n%';
+
+f)  
+SELECT imie, nazwisko, liczba_godzin-160 as "nadgodziny" FROM pracownicy 
+INNER JOIN godziny ON pracownicy.id_pracownika=godziny.id_pracownika WHERE liczba_godzin<160;
+
+g) 
+SELECT imie, nazwisko FROM pracownicy 
+INNER JOIN wynagrodzenie ON pracownicy.id_pracownika=wynagrodzenie.id_pracownika 
+INNER JOIN pensja_stanowisko ON pensja_stanowisko.id_pensji=wynagrodzenie.id_pensji 
+WHERE pensja_stanowisko.kwota>1500 AND pensja_stanowisko.kwota<3000;
+
+h)
+SELECT imie, nazwisko FROM pracownicy 
+INNER JOIN wynagrodzenie ON wynagrodzenie.id_pracownika=pracownicy.id_pracownika
+INNER JOIN godziny ON godziny.id_pracownika=wynagrodzenie.id_pracownika 
+INNER JOIN premia ON premia.id_premii=wynagrodzenie.id_premii 
+WHERE premia.kwota = 0 AND godziny.liczba_godzin>160;
+
+8.
+a) 
+UPDATE pracownicy SET telefon = CONCAT('(+48)', telefon);
+
+b) Zakładając, że wejsciowy numer telefonu miał format XXX XXX XXX (spacje):
+UPDATE pracownicy SET telefon = REPLACE(telefon, ‘ ’, ‘-‘);
+
+c) 
+SELECT id_pracownika, UPPER(imie), UPPER(nazwisko), UPPER(adres), telefon FROM pracownicy 
+WHERE LENGTH(nazwisko) = (SELECT MAX(LENGTH(nazwisko)) FROM pracownicy);
+
+d)
+SELECT pracownicy.id_pracownika, imie, nazwisko, adres, telefon, md5(CAST(pensja_stanowisko.kwota AS TEXT)) as "zakodowana pensja" FROM pracownicy 
+INNER JOIN wynagrodzenie ON wynagrodzenie.id_pracownika=pracownicy.id_pracownika 
+INNER JOIN pensja_stanowisko ON pensja_stanowisko.id_pensji=wynagrodzenie.id_pensji;
+
+
+
