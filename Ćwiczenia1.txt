@@ -149,6 +149,15 @@ INNER JOIN wynagrodzenie ON wynagrodzenie.id_pracownika=pracownicy.id_pracownika
 INNER JOIN godziny ON godziny.id_pracownika=wynagrodzenie.id_pracownika 
 INNER JOIN premia ON premia.id_premii=wynagrodzenie.id_premii 
 WHERE premia.kwota = 0 AND godziny.liczba_godzin>160;
+7.
+SELECT imie, nazwisko, kwota FROM pracownicy JOIN wynagrodzenie ON pracownicy.id_pracownika = wynagrodzenie.id_pracownika JOIN pensja_stanowisko ON wynagrodzenie.id_pensji = pensja_stanowisko.id_pensji ORDER BY kwota;
+SELECT imie, nazwisko, pensja_stanowisko.kwota, premia.kwota FROM pracownicy JOIN wynagrodzenie ON pracownicy.id_pracownika = wynagrodzenie.id_pracownika JOIN pensja_stanowisko ON wynagrodzenie.id_pensji = pensja_stanowisko.id_pensji JOIN premia ON wynagrodzenie.id_premii = premia.id_premii ORDER BY pensja_stanowisko.kwota ASC, premia.kwota DESC;
+SELECT stanowisko, COUNT(pracownicy.id_pracownika) FROM pracownicy JOIN wynagrodzenie ON pracownicy.id_pracownika = wynagrodzenie.id_pracownika JOIN pensja_stanowisko ON wynagrodzenie.id_pensji = pensja_stanowisko.id_pensji GROUP BY stanowisko;
+SELECT AVG(kwota), MIN(kwota), MAX(kwota) FROM pracownicy JOIN wynagrodzenie ON pracownicy.id_pracownika = wynagrodzenie.id_pracownika JOIN pensja_stanowisko ON wynagrodzenie.id_pensji = pensja_stanowisko.id_pensji WHERE stanowisko LIKE 'programista15k';
+SELECT SUM(kwota) FROM pracownicy JOIN wynagrodzenie ON pracownicy.id_pracownika = wynagrodzenie.id_pracownika JOIN pensja_stanowisko ON wynagrodzenie.id_pensji = pensja_stanowisko.id_pensji;
+SELECT stanowisko, SUM(kwota) FROM pracownicy JOIN wynagrodzenie ON pracownicy.id_pracownika = wynagrodzenie.id_pracownika JOIN pensja_stanowisko ON wynagrodzenie.id_pensji = pensja_stanowisko.id_pensji GROUP BY stanowisko;
+SELECT stanowisko, SUM(premia.kwota) FROM pracownicy JOIN wynagrodzenie ON pracownicy.id_pracownika = wynagrodzenie.id_pracownika JOIN pensja_stanowisko ON wynagrodzenie.id_pensji = pensja_stanowisko.id_pensji JOIN premia ON wynagrodzenie.id_premii = premia.id_premii GROUP BY (stanowisko);
+DELETE FROM pracownicy WHERE pracownicy.id_pracownika IN (SELECT pracownicy.id_pracownika FROM pracownicy JOIN wynagrodzenie ON pracownicy.id_pracownika = wynagrodzenie.id_pracownika JOIN pensja_stanowisko ON wynagrodzenie.id_pensji = pensja_stanowisko.id_pensji WHERE pensja_stanowisko.kwota < 1200);
 
 8.
 a) 
