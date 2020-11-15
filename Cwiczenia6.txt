@@ -33,7 +33,6 @@ Warstwa Przyciete -> Kalkulator pól (ikona liczydła) -> wpisujemy „$length�
 
 ODP.: 34,961 km
 
-
 4. a) Wysokość średnia:
 Wtyczka Group Stats -> Layers -> airports
 Filter:   ''USE'' LIKE 'Military'
@@ -48,12 +47,14 @@ Filter:   ''USE'' LIKE 'Military'
 Rows: USE
 Value: ELEV, count
 Odp.: Jest  8 takich lotnik.
+
 c) ilość lotnisk powyżej 1400 m n.p.m
 Wtyczka Group Stats -> Layers -> airports
 Filter:   ''USE'' LIKE 'Military' AND ELEV > 1400
 Rows: USE
 Value: ELEV, count
 Odp.: Jest  1 takie lotnisko.
+
 5.Załadowanie warstwy popp. 
 a) Liczba budynków w Bristol Bay 
 Popp->otwórz tabelę atrybutów-> znaleziono w tabeli Bristol Bay-> kopiuj
@@ -99,3 +100,7 @@ Group Stats -> values: areakm2,sum
 
 Liczba wierzchołków: 6175
 Pole: 24719,8 km^2
+
+Różnice:
+Liczba wierzchołków: 1294
+Pole: brak zmian
