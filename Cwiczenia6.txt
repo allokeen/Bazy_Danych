@@ -29,9 +29,9 @@ Edycja-> Wklej
 Wektor -> Narzędzia geoprocessingu -> przytnij
 Do przycięcia: railoads
 Powstałe przycięcie zapisujemy w nowym pliku np. „Przyciete”
-Warstwa Przyciete -> Kalkulator pól (ikona liczydła) -> wpisujemy „$length”
+Warstwa Przyciete -> Kalkulator pól (ikona liczydła) -> wpisujemy sum(„$length”)
 
-ODP.: 34,961 km
+ODP.: 268212m
 
 4. a) Wysokość średnia:
 Wtyczka Group Stats -> Layers -> airports
