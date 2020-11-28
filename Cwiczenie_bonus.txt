@@ -1,0 +1,35 @@
+======== ĆWICZENIA BONUSOWE (1-5)
+
+ALTER TABLE druzyny ADD PRIMARY KEY (id);
+ALTER TABLE mecze ADD PRIMARY KEY (id);
+ALTER TABLE mecze ADD FOREIGN KEY (team1) REFERENCES druzyny(id);
+ALTER TABLE mecze ADD FOREIGN KEY (team2) REFERENCES druzyny(id);
+ALTER TABLE gole ADD FOREIGN KEY (matchid) REFERENCES mecze(id);
+ALTER TABLE gole ADD FOREIGN KEY (teamid) REFERENCES druzyny(id);
+
+Zad.1
+
+SELECT matchid, player FROM gole WHERE teamid = 'POL';
+
+Zad.2
+
+SELECT id,mdate,stadium,team1,team2 
+FROM mecze JOIN gole ON mecze.id = gole.matchid 
+WHERE gole.player = 'Jakub Blaszczykowski' AND mecze.id='1004';
+
+Zad.3
+
+SELECT player, teamname, stadium, mdate FROM gole 
+JOIN mecze ON (gole.matchid = mecze.id) 
+JOIN druzyny ON (druzyny.id=gole.teamid) WHERE druzyny.teamname = 'Poland';
+
+Zad.4
+
+SELECT team1, team2, player 
+FROM gole JOIN mecze ON (gole.matchid = mecze.id) 
+WHERE player LIKE 'Mario %';
+
+Zad.5
+SELECT player, teamid, coach, gtime FROM gole 
+JOIN druzyny ON (gole.teamid = druzyny.id) 
+WHERE gtime<=10;
