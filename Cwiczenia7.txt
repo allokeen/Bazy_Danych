@@ -1,0 +1,23 @@
+====ĆWICZENIA 7
+
+1. Utworzenie bazy
+
+CREATE DATABASE cwiczenia7
+\c cwiczenia7
+CREATE EXTENSION postgis;
+CREATE EXTENSION postgis_raster;
+
+Dodatkowo, należy dodać ścieżki do katalogów bin oraz lib, znajdujących się w katalogu PostgreSQL, do zmiennej środowiskowej PATH
+
+2. Przywrócenie struktury bazy danych
+Command Prompt:
+
+pg_restore -h localhost -p 5432 -U postgres -d cwiczenia7 -1 C:\Users\Uzytkownik\Desktop\postgis_raster.backup
+
+3. Otwarcie Command Prompt w PostgreSQL\11\bin
+Załadowanie plików:
+raster2pgsql -s 3763 -N -32767 -t 100x100 -I -C -M -d C:\Users\Uzytkownik\Desktop\srtm_1arc_v3.tif rasters.dem | psql -d cwiczenia7 -U postgres
+raster2pgsql -s 3763 -N -32767 -t 128x128 -I -C -M -d C:\Users\Uzytkownik\Desktop\Landsat8_L1TP_RGBN.tif rasters.dem | psql -d cwiczenia7 -U postgres
+
+4. Zmiana nazwy schematu schema_name na swierczek
+ALTER SCHEMA schema_name RENAME to swierczek;
